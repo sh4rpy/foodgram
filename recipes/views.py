@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import RecipeCreateOrUpdateForm
 from .models import Recipe, User, Follow, FavoritesList, ShoppingList, Ingredient
-from .utils import create_file
+from .utils import create_shopping_list_file
 
 
 def page_not_found(request, exception):
@@ -116,7 +116,7 @@ def change_recipe(request, recipe_id):
 def download_shopping_list(request):
     shopping_list = ShoppingList.objects.select_related(
         'author', 'recipe').filter(author=request.user)
-    create_file.create_shopping_list_file(shopping_list)
+    create_shopping_list_file(shopping_list)
     with open('recipes/download/shopping_list.txt') as file:
         response = HttpResponse(file, content_type='text/plain')
         response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
