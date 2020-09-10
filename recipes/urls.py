@@ -4,6 +4,7 @@ from . import views
 
 
 urlpatterns = [
+    # TODO: поработать над мэппингом
     path('', views.index, name='index'),
     path('recipes/<int:recipe_id>/', views.recipe_detail, name='recipe_detail'),
     path('subscriptions/', views.follow_index, name='follow_index'),
