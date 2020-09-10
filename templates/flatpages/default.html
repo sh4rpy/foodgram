@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} {{ flatpages.title }} {% endblock %}
+{% load static %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+{% block header %}
+  {% include 'header.html' %}
+{% endblock %}
+{% block content %}
+  <div class="main__header">
+    <h1 class="main__title">{{ flatpages.title }}</h1>
+    {{ flatpages.content }}
+  </div>
+{% endblock %}

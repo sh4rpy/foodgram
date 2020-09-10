@@ -1,0 +1,14 @@
+<ul class="tags">
+    <li class="tags__item">
+        <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange {% if '1' in tags %}tags__checkbox_active{% endif %}" {% if 'tag' in request.GET %}href="{{ request.get_full_path }}&tag=1"{% else %}href="?tag=1"{% endif %}></a>
+        <span class="tags__label">Завтрак</span>
+    </li>
+    <li class="tags__item">
+        <a id="lunch" class="tags__checkbox tags__checkbox_style_green {% if '2' in tags %}tags__checkbox_active{% endif %}" {% if 'tag' in request.GET %}href="{{ request.get_full_path }}&tag=2"{% else %}href="?tag=2"{% endif %}></a>
+        <span for="lunch" class="tags__label">Обед</span>
+    </li>
+    <li class="tags__item">
+        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple {% if '3' in tags %}tags__checkbox_active{% endif %}" {% if 'tag' in request.GET %}href="{{ request.get_full_path }}&tag=3"{% else %}href="?tag=3"{% endif %}></a>
+        <label for="dinner" class="tags__label">Ужин</label>
+    </li>
+</ul>

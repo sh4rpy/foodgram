@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} 404 {% endblock %}
+{% load static %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+{% block header %}
+  {% include 'header.html' %}
+{% endblock %}
+{% block content %}
+  <div class="main__header">
+    <h1 class="main__title">Страница {{ path }} не найдена</h1>
+  </div>
+{% endblock %}
