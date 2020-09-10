@@ -38,7 +38,7 @@ class Recipe(models.Model):
 class Unit(models.Model):
     amount = models.IntegerField(default=1)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredient_amount')
 
 
 class Follow(models.Model):

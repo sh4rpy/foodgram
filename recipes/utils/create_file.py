@@ -1,19 +1,12 @@
-from recipes.models import Recipe
+from django.db.models import F, Sum
 
 
-def create_shopping_list_file(shopping_list):
-    recipes_pk = []
-    ingredients = {}
-    for recipe in shopping_list:
-        recipes_pk.append(recipe.recipe.pk)
-    recipes = Recipe.objects.filter(pk__in=recipes_pk)
+def create_shopping_list_file(recipes):
+    ingredients = recipes.annotate(
+        name=F('recipe__ingredients__title'),
+        dimension=F('recipe__ingredients__dimension')).values(
+        'name', 'dimension').annotate(
+        total=Sum('recipe__ingredient_amount__amount')).order_by('name')
     with open('recipes/download/shopping_list.txt', 'w') as file:
-        for recipe in recipes:
-            for unit in recipe.unit_set.all():
-                current_ingredient = f'{unit.ingredient.title} ({unit.ingredient.dimension})'
-                if current_ingredient in ingredients:
-                    ingredients[current_ingredient] += unit.amount
-                else:
-                    ingredients[current_ingredient] = unit.amount
-        for key, value in ingredients.items():
-            file.write(f'{key} - {value}\n')
+        for ingredient in ingredients:
+            file.write(f"{ingredient['name']} ({ingredient['dimension']}) - {ingredient['total']} \n")

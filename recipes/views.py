@@ -23,7 +23,7 @@ def index(request):
     tags = request.GET.getlist('tag', '')
     if tags:
         recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').order_by('-pub_date').filter(
-            tags__in=tags)
+            tags__in=tags).order_by('-pub_date').distinct()
     else:
         recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').order_by('-pub_date')
     paginator = Paginator(recipes, 6)
@@ -38,7 +38,7 @@ def profile(request, username):
     if tags:
         profile_recipes = Recipe.objects.prefetch_related(
             'author', 'ingredients', 'tags').filter(
-            author=profile.id, tags__in=tags).order_by('-pub_date')
+            author=profile.id, tags__in=tags).order_by('-pub_date').distinct()
     else:
         profile_recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
             author=profile.id).order_by('-pub_date')
@@ -73,7 +73,7 @@ def favorites(request):
     tags = request.GET.getlist('tag', '')
     if tags:
         favorites_recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
-            pk__in=favorites_recipes_pk, tags__in=tags).order_by('-pub_date')
+            pk__in=favorites_recipes_pk, tags__in=tags).order_by('-pub_date').distinct()
     else:
         favorites_recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
             pk__in=favorites_recipes_pk).order_by('-pub_date')
