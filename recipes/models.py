@@ -51,7 +51,7 @@ class Follow(models.Model):
 
 class FavoritesList(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_favorites', verbose_name='Автор')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='authors',
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='favorites',
                                verbose_name='Избранные рецепты')
 
     class Meta:

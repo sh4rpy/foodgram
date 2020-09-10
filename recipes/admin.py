@@ -24,10 +24,13 @@ class UnitInline(admin.TabularInline):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author',)
+    def get_favorites_count(self, obj):
+        return obj.favorites.count()
+
+    get_favorites_count.short_description = 'Количество добавлений в "Избранное"'
+    list_display = ('title', 'author', 'get_favorites_count')
     list_filter = ('author', 'title', 'tags')
     inlines = (UnitInline,)
-    #TODO: На странице рецепта вывести число добавлений этого рецепта в избранное
 
 
 admin.site.register(Recipe, RecipeAdmin)
