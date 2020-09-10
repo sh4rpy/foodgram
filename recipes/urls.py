@@ -16,9 +16,9 @@ urlpatterns = [
     path('delete_subscriptions/<int:id>/', views.delete_subscriptions, name='delete_subscriptions'),
     path('ingredients/', views.get_ingredients, name='ingredients'),
     path('shopping_list/', views.shopping_list, name='shopping_list'),
+    path('shopping_list/download/', views.download_shopping_list, name='download'),
     path('shopping_list/delete/<int:recipe_id>', views.shopping_list_delete_recipe, name='shopping_list_delete_recipe'),
     path('create_recipe/', views.create_recipe, name='create_recipe'),
     path('change_recipe/<int:recipe_id>/', views.change_recipe, name='change_recipe'),
-    path('download/', views.download_shopping_list, name='download'),
     path('<str:username>/', views.profile, name='profile'),
 ]
