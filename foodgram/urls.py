@@ -37,6 +37,8 @@ urlpatterns = [
     path('auth/', include('django.contrib.auth.urls')),
     # раздел рецептов
     path('', include('recipes.urls')),
+    # api фронтенда
+    path('api/', include('api_frontend.urls'))
 ]
 if settings.DEBUG:
     import debug_toolbar
