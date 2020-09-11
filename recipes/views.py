@@ -112,9 +112,9 @@ def change_recipe(request, recipe_id):
 
 @login_required
 def download_shopping_list(request):
-    shopping_list = ShoppingList.objects.select_related(
+    shop_list = ShoppingList.objects.select_related(
         'author', 'recipe').filter(author=request.user)
-    create_shopping_list_file(shopping_list)
+    create_shopping_list_file(shop_list)
     with open('recipes/download/shopping_list.txt') as file:
         response = HttpResponse(file, content_type='text/plain')
         response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
