@@ -1,28 +1,30 @@
-from .models import ShoppingList, FavoritesList, Follow, User
+from .models import ShoppingList, Recipe, User
 
 
 def get_shopping_list_count(request):
-    return {'shopping_list_count': ShoppingList.objects.filter(author=request.user.pk).count()}
+    if request.user.is_authenticated:
+        return {'shopping_list_count': ShoppingList.objects.select_related('author', 'recipe').filter(
+            author=request.user).count()}
+    return []
 
 
 def get_shopping_list_recipes_pk(request):
     if request.user.is_authenticated:
-        shopping_list = ShoppingList.objects.filter(author=request.user)
-        return {'shopping_list_recipes_pk': [item.recipe.pk for item in shopping_list]}
+        return {'shopping_list_recipes': Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
+            shopping_list__author=request.user)}
     return []
 
 
 def get_favorites_recipes_pk(request):
     if request.user.is_authenticated:
-        favorites = FavoritesList.objects.filter(author=request.user)
-        return {'favorites_recipes_pk': [favorite.recipe.pk for favorite in favorites]}
+        return {'favorites_recipes': Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
+            favorites__author=request.user)}
     return []
 
 
 def get_followings_pk(request):
     if request.user.is_authenticated:
-        followings = Follow.objects.filter(user=request.user)
-        return {'followings_pk': [following.following.pk for following in followings]}
+        return {'followings': User.objects.filter(following__user=request.user)}
     return []
 
 

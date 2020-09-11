@@ -4,17 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import RecipeCreateForm
-from .models import Recipe, User, Follow, FavoritesList, ShoppingList
+from .models import Recipe, User, ShoppingList
 from .utils import create_shopping_list_file
-
-
-def page_not_found(request, exception):
-    return render(
-        request,
-        "misc/404.html",
-        {"path": request.path},
-        status=404
-    )
 
 
 def index(request):
@@ -48,15 +39,13 @@ def profile(request, username):
 
 
 def recipe_detail(request, recipe_id):
-    recipe = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').get(pk=recipe_id)
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
     return render(request, 'recipes/recipe_detail.html', {'recipe': recipe})
 
 
 @login_required
 def follow_index(request):
-    subscriptions = Follow.objects.select_related('user', 'following').filter(user=request.user)
-    favorites_authors = [subscription.following.pk for subscription in subscriptions]
-    users = User.objects.filter(pk__in=favorites_authors)
+    users = User.objects.filter(following__user=request.user)
     paginator = Paginator(users, 3)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -66,15 +55,13 @@ def follow_index(request):
 
 @login_required
 def favorites(request):
-    favorites = FavoritesList.objects.select_related('author', 'recipe').filter(author=request.user)
-    favorites_recipes_pk = [favorite.recipe.pk for favorite in favorites]
     tags = request.GET.getlist('tag', '')
     if tags:
         favorites_recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
-            pk__in=favorites_recipes_pk, tags__slug__in=tags).order_by('-pub_date').distinct()
+            favorites__author=request.user, tags__slug__in=tags).order_by('-pub_date').distinct()
     else:
         favorites_recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
-            pk__in=favorites_recipes_pk).order_by('-pub_date')
+            favorites__author=request.user).order_by('-pub_date')
     paginator = Paginator(favorites_recipes, 6)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -83,9 +70,8 @@ def favorites(request):
 
 @login_required
 def shopping_list(request):
-    shop_list = ShoppingList.objects.select_related('author', 'recipe').filter(author=request.user)
-    recipes_pk = [recipe.recipe.pk for recipe in shop_list]
-    recipes = Recipe.objects.filter(pk__in=recipes_pk)
+    recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
+        shopping_list__author=request.user)
     return render(request, 'recipes/shopping_list.html', {'recipes': recipes})
 
 
@@ -119,3 +105,12 @@ def download_shopping_list(request):
         response = HttpResponse(file, content_type='text/plain')
         response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
         return response
+
+
+def page_not_found(request, exception):
+    return render(
+        request,
+        "misc/404.html",
+        {"path": request.path},
+        status=404
+    )
