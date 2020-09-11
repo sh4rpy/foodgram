@@ -68,5 +68,4 @@ def get_ingredients(request):
             'title': ing.title,
             'dimension': ing.dimension,
         })
-    print(result)
-    return JsonResponse({'result': result})
+    return JsonResponse(result, safe=False)

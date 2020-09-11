@@ -7,6 +7,7 @@ User = get_user_model()
 
 class Tag(models.Model):
     name = models.CharField(max_length=150, verbose_name='Тэг')
+    slug = models.SlugField(max_length=50, verbose_name='Уникальный адрес', blank=True, null=True, unique=True)
 
     def __str__(self):
         return self.name

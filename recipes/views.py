@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import RecipeCreateOrUpdateForm
+from .forms import RecipeCreateForm
 from .models import Recipe, User, Follow, FavoritesList, ShoppingList
 from .utils import create_shopping_list_file
 
@@ -21,7 +21,7 @@ def index(request):
     tags = request.GET.getlist('tag', '')
     if tags:
         recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').order_by('-pub_date').filter(
-            tags__in=tags).order_by('-pub_date').distinct()
+            tags__slug__in=tags).order_by('-pub_date').distinct()
     else:
         recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').order_by('-pub_date')
     paginator = Paginator(recipes, 6)
@@ -36,7 +36,7 @@ def profile(request, username):
     if tags:
         profile_recipes = Recipe.objects.prefetch_related(
             'author', 'ingredients', 'tags').filter(
-            author=profile.id, tags__in=tags).order_by('-pub_date').distinct()
+            author=profile.id, tags__slug__in=tags).order_by('-pub_date').distinct()
     else:
         profile_recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
             author=profile.id).order_by('-pub_date')
@@ -71,7 +71,7 @@ def favorites(request):
     tags = request.GET.getlist('tag', '')
     if tags:
         favorites_recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
-            pk__in=favorites_recipes_pk, tags__in=tags).order_by('-pub_date').distinct()
+            pk__in=favorites_recipes_pk, tags__slug__in=tags).order_by('-pub_date').distinct()
     else:
         favorites_recipes = Recipe.objects.prefetch_related('author', 'ingredients', 'tags').filter(
             pk__in=favorites_recipes_pk).order_by('-pub_date')
@@ -99,14 +99,14 @@ def shopping_list_delete_recipe(request, recipe_id):
 @login_required
 def create_recipe(request):
     # TODO:
-    form = RecipeCreateOrUpdateForm()
+    form = RecipeCreateForm()
     return render(request, 'recipes/create_recipe.html', {'form': form})
 
 
 @login_required
 def change_recipe(request, recipe_id):
     # TODO
-    form = RecipeCreateOrUpdateForm()
+    form = RecipeCreateForm()
     return render(request, 'recipes/change_recipe.html', {'form': form})
 
 
