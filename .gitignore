@@ -8,3 +8,4 @@ media/*
 nginx/*
 Dockerfile
 docker-compose.yaml
+home/
