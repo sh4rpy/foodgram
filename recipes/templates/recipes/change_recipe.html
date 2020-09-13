@@ -51,7 +51,7 @@
                                 <label for="cantidad" class="form__label" id="cantidadVal">шт.</label>
                             </div>
                             <span class="form__ingredient-link" id="addIng">Добавить ингредиент</span>
-                            <span class="form__error" id="ingredient-error">{% if error %}Необходимо выбрать ингредиенты.{% endif %}</span>
+                            <span class="form__error" id="ingredient-error">{% if error  %}Необходимо выбрать ингредиенты.{% endif %}</span>
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                 {% endif %}
             {% endfor %}
             <div class="form__footer">
-              <button class="button button_style_blue" type="submit" id="submit-button">Сохранить</button><a style="margin-left: 2.5em" href="{% url 'delete_recipe' recipe_id %}" class="form__ingredient-link">Удалить</a>
+              <button class="button button_style_blue" type="submit" id="submit-button">Сохранить</button><a style="margin-left: 2.5em" href="{% url 'delete_recipe' recipe.pk %}" class="form__ingredient-link">Удалить</a>
             </div>
        </form>
     </div>

@@ -141,7 +141,7 @@ def change_recipe(request, recipe_id):
             return redirect('recipe_detail', recipe_id=recipe.pk)
     else:
         form = RecipeForm(instance=recipe)
-    return render(request, 'recipes/change_recipe.html', {'form': form, 'recipe_id': recipe.pk})
+    return render(request, 'recipes/change_recipe.html', {'form': form, 'recipe': recipe})
 
 
 @login_required

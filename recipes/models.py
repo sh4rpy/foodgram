@@ -29,7 +29,7 @@ class Recipe(models.Model):
         Ingredient, through='Unit', through_fields=('recipe', 'ingredient'),
         related_name='recipes_ingredient')
     tags = MultiSelectField(
-        choices=RECIPES_TAGS, verbose_name='Теги', blank=True, null=True)
+        choices=RECIPES_TAGS, verbose_name='Теги')
     cooking_time = models.PositiveSmallIntegerField(verbose_name='Время приготовления (мин.)')
     pub_date = models.DateTimeField(
         verbose_name='Дата публикации', auto_now_add=True, db_index=True)
