@@ -1,19 +1,23 @@
 from django import forms
 
-from .models import Recipe, Tag
+from .models import Recipe
 
 
-class RecipeCreateForm(forms.ModelForm):
-    # tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), to_field_name='name')
-
+class RecipeForm(forms.ModelForm):
+    """Форма создания/редактиирования рецепта"""
     class Meta:
         model = Recipe
-        fields = ('title', 'cooking_time', 'description', 'image',)
-
-    # def __init__(self, data=None, *args, **kwargs):
-    #     if data is not None:
-    #         data = data.copy()
-    #         for k in ('breakfast', 'lunch', 'dinner'):
-    #             if k in data:
-    #                 data.update({'tags': k})
-    #     super().__init__(data=data, *args, **kwargs)
+        fields = ('title', 'tags', 'cooking_time', 'description', 'image')
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form__input', 'id': 'id_name'}),
+            'tags': forms.CheckboxSelectMultiple(),
+            'cooking_time': forms.NumberInput(attrs={'class': 'form__input', 'id': 'id_time'}),
+            'description': forms.Textarea(
+                attrs={'class': 'form__textarea', 'rows': '8', 'id': 'id_description'}),
+        }
+        labels = {
+            'title': 'Название рецепта',
+            'description': 'Описание',
+            'cooking_time': 'Время приготовления',
+            'image': 'Загрузить фото',
+        }

@@ -94,3 +94,32 @@ formDropdownItems.addEventListener('click', ingredients.dropdown);
 addIng.addEventListener('click', ingredients.addIngredient);
 
 
+
+
+const tag0 = document.querySelector("#id_breakfast")
+const tag1 = document.querySelector("#id_lunch")
+const tag2 = document.querySelector("#id_dinner")
+tag0.addEventListener('input', (event) => {
+    const tag00 = document.querySelector("#id_tags_0")
+    if (tag00.checked === true) {
+      tag00.checked = false
+    } else {
+        tag00.checked = true
+    }
+})
+tag1.addEventListener('input', (event) => {
+    const tag11 = document.querySelector("#id_tags_1")
+    if (tag11.checked === true) {
+      tag11.checked = false
+    } else {
+        tag11.checked = true
+    }
+})
+tag2.addEventListener('input', (event) => {
+    const tag22 = document.querySelector("#id_tags_2")
+    if (tag22.checked === true) {
+      tag22.checked = false
+    } else {
+        tag22.checked = true
+    }
+})

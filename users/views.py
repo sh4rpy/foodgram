@@ -5,17 +5,18 @@ from .forms import CreationForm
 
 
 class SignUp(CreateView):
+    """Форма регистрации"""
     form_class = CreationForm
     success_url = "/auth/login/"
     template_name = "users/reg.html"
 
     def form_valid(self, form):
         email = form.cleaned_data['email']
-        send_mail_to_right_address(email)
+        send_mail_to_user_email(email)
         return super().form_valid(form)
 
 
-def send_mail_to_right_address(email):
+def send_mail_to_user_email(email):
     send_mail(
         'Регистрация', 'Вы успешно прошли регистрацию на сайте',
         'from@example.net', [email],

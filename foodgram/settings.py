@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'multiselectfield',
     'debug_toolbar',
 ]
 
@@ -81,9 +82,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'recipes.context_processors.get_shopping_list_count',
-                'recipes.context_processors.get_shopping_list_recipes_pk',
-                'recipes.context_processors.get_favorites_recipes_pk',
-                'recipes.context_processors.get_followings_pk',
+                'recipes.context_processors.get_shopping_list_recipes',
+                'recipes.context_processors.get_favorites_recipes',
+                'recipes.context_processors.get_followings',
                 'recipes.context_processors.get_variables',
             ],
         },
@@ -156,11 +157,11 @@ LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = '/auth/login/'
 
-SITE_ID = 1
-
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
+SITE_ID = 1

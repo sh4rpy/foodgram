@@ -1,2 +1,2 @@
 # foodgram-project
-foodgram-project
+Ридмишечку завезут на втором этапе ревью

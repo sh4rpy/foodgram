@@ -1,3 +1,10 @@
 .idea
 .DS_Store
 venv
+*.env
+.env
+__pycache__/
+media/*
+nginx/*
+Dockerfile
+docker-compose.yaml

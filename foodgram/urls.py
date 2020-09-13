@@ -24,7 +24,7 @@ handler404 = "recipes.views.page_not_found" # noqa
 
 
 urlpatterns = [
-    # раздел админиатртора
+    # раздел администратора
     path('admin/', admin.site.urls),
     # flatpages
     path('about/', include('django.contrib.flatpages.urls')),

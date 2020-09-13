@@ -1,13 +1,6 @@
 from django.contrib import admin
 
-from .models import Tag, Ingredient, Recipe, Unit, Follow, FavoritesList, ShoppingList
-
-
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-
-
-admin.site.register(Tag, TagAdmin)
+from .models import Ingredient, Recipe, Unit, Follow, FavoritesList, ShoppingList
 
 
 class IngredientAdmin(admin.ModelAdmin):
@@ -27,7 +20,7 @@ class RecipeAdmin(admin.ModelAdmin):
     def get_favorites_count(self, obj):
         return obj.favorites.count()
 
-    get_favorites_count.short_description = 'Количество добавлений в "Избранное"'
+    get_favorites_count.short_description = 'Число добавлений в "Избранное"'
     list_display = ('title', 'author', 'get_favorites_count')
     list_filter = ('author', 'title', 'tags')
     inlines = (UnitInline,)
@@ -44,7 +37,7 @@ admin.site.register(Unit, UnitAdmin)
 
 
 class FollowAdmin(admin.ModelAdmin):
-    list_display = ('user', 'following', )
+    list_display = ('user', 'following',)
 
 
 admin.site.register(Follow, FollowAdmin)
