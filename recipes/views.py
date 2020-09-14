@@ -111,7 +111,7 @@ def create_recipe(request):
             # получаем ингредиенты из формы
             ingredients = get_ingredients(request)
             for title, amount in ingredients.items():
-                ingredient = Ingredient.objects.get(title=title)
+                ingredient = get_object_or_404(Ingredient, title=title)
                 unit = Unit(amount=amount, ingredient=ingredient, recipe=recipe)
                 unit.save()
             return redirect('recipe_detail', recipe_id=recipe.pk)
@@ -136,7 +136,7 @@ def change_recipe(request, recipe_id):
                 recipe.ingredient_amount.all().delete()
                 # и сохраняем новые ингредиенты
                 for title, amount in ingredients.items():
-                    ingredient = Ingredient.objects.get(title=title)
+                    ingredient = get_object_or_404(Ingredient, title=title)
                     unit = Unit(amount=amount, ingredient=ingredient, recipe=recipe)
                     unit.save()
             return redirect('recipe_detail', recipe_id=recipe.pk)
