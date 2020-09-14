@@ -5,7 +5,4 @@ venv
 .env
 __pycache__/
 media/*
-nginx/*
-Dockerfile
-docker-compose.yaml
 home/
