@@ -15,7 +15,7 @@ def add_favorites(request):
     """Добавляет рецепт в список избранного"""
     recipe_id = json.loads(request.body)['id']
     recipe = get_object_or_404(Recipe, pk=recipe_id)
-    FavoritesList.objects.create(author=request.user, recipe=recipe)
+    FavoritesList.objects.get_or_create(author=request.user, recipe=recipe)
     return JsonResponse({'success': True})
 
 
@@ -33,7 +33,7 @@ def add_purchases(request):
     """Добавляет рецепт в список покупок"""
     recipe_id = json.loads(request.body)['id']
     recipe = get_object_or_404(Recipe, pk=recipe_id)
-    ShoppingList.objects.create(author=request.user, recipe=recipe)
+    ShoppingList.objects.get_or_create(author=request.user, recipe=recipe)
     return JsonResponse({'success': True})
 
 
@@ -51,7 +51,7 @@ def add_subscriptions(request):
     """Подписывает пользователя на автора"""
     following_id = json.loads(request.body)['id']
     following = get_object_or_404(User, pk=following_id)
-    Follow.objects.create(user=request.user, following=following)
+    Follow.objects.get_or_create(user=request.user, following=following)
     return JsonResponse({'success': True})
 
 
