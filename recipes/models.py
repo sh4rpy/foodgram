@@ -20,6 +20,9 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
+    class Meta:
+        ordering = ['-pub_date']
+
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='author_recipes', verbose_name='Автор')
     title = models.CharField(max_length=250, verbose_name='Название')

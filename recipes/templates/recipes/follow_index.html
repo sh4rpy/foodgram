@@ -14,13 +14,13 @@
   </div>
     <div class="card-list">
       {% for user in page %}
-      <div class="card-user" data-id="{{ user.pk }}">
+      <div class="card-user" data-id="{{ user.following.pk }}">
             <div class="card-user__header">
-                <h2 class="card-user__title">{{ user }}</h2>
+                <h2 class="card-user__title">{{ user.following.username }}</h2>
             </div>
             <div class="card-user__body">
               <ul class="card-user__items">
-                {% for recipe in user.author_recipes.all|slice:'3' %}
+                {% for recipe in user.following.author_recipes.all|slice:'3' %}
                   <li class="card-user__item">
                     <div class="recipe">
                         <img src="{{ recipe.image.url }}" alt="какой-то-текст" class="recipe__image">
@@ -29,9 +29,9 @@
                     </div>
                   </li>
                 {% endfor %}
-                {% if user.author_recipes.count > 3 %}
+                {% if user.following.author_recipes.count > 3 %}
                   <li class="card-user__item">
-                      <a href="{% url 'profile' user.username %}" class="card-user__link link">Еще {{ user.author_recipes.count|add:'-3' }} рецептов...</a>
+                      <a href="{% url 'profile' user.following.username %}" class="card-user__link link">Еще {{ user.following.author_recipes.count|add:'-3' }} рецептов...</a>
                   </li>
                 {% endif %}
               </ul>

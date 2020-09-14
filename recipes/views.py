@@ -5,16 +5,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import RecipeForm
 from .models import Recipe, User, ShoppingList, Ingredient, Unit
-from .utils import get_recipes_by_tags, create_shopping_list_file, get_ingredients
+from .utils import get_recipes_by_tags, create_shopping_list_content, get_ingredients
 
 
 def index(request):
     """Главная страница"""
     tags = []
-    recipes = Recipe.objects.prefetch_related('author', 'ingredients').order_by('-pub_date')
+    recipes = Recipe.objects.prefetch_related('author', 'ingredients')
     # если запрос с фильтрацией, переопределяем tags и recipes
     if 'tag' in request.GET:
-        tags, recipes = get_recipes_by_tags(request, recipes)
+        tag_list = request.GET.getlist('tag')
+        tags, recipes = get_recipes_by_tags(tag_list, recipes)
     paginator = Paginator(recipes, 6)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -25,11 +26,11 @@ def profile(request, username):
     """Профиль пользователя"""
     tags = []
     profile = get_object_or_404(User, username=username)
-    profile_recipes = Recipe.objects.prefetch_related('author', 'ingredients').filter(
-        author=profile.id).order_by('-pub_date')
+    profile_recipes = profile.author_recipes.all()
     # если запрос с фильтрацией, переопределяем tags и profile_recipes
     if 'tag' in request.GET:
-        tags, profile_recipes = get_recipes_by_tags(request, profile_recipes)
+        tag_list = request.GET.getlist('tag')
+        tags, profile_recipes = get_recipes_by_tags(tag_list, profile_recipes)
     paginator = Paginator(profile_recipes, 6)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -46,7 +47,7 @@ def recipe_detail(request, recipe_id):
 @login_required
 def follow_index(request):
     """Просмотр подписок"""
-    users = User.objects.filter(following__user=request.user)
+    users = request.user.follower.all()
     paginator = Paginator(users, 3)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -59,10 +60,11 @@ def favorites(request):
     """Просмотр избранных рецептов"""
     tags = []
     favorites_recipes = Recipe.objects.prefetch_related('author', 'ingredients').filter(
-        favorites__author=request.user).order_by('-pub_date')
+        favorites__author=request.user)
     # если запрос с фильтрацией, переопределяем tags и favorites_recipes
     if 'tag' in request.GET:
-        tags, favorites_recipes = get_recipes_by_tags(request, favorites_recipes)
+        tag_list = request.GET.getlist('tag')
+        tags, favorites_recipes = get_recipes_by_tags(tag_list, favorites_recipes)
     paginator = Paginator(favorites_recipes, 6)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -90,12 +92,11 @@ def download_shopping_list(request):
     """Скачивание списка покупок"""
     shop_list = ShoppingList.objects.select_related(
         'author', 'recipe').filter(author=request.user)
-    # создаем файл с ингредиентами
-    create_shopping_list_file(shop_list)
-    with open('recipes/download/shopping_list.txt') as file:
-        response = HttpResponse(file, content_type='text/plain')
-        response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
-        return response
+    # создаем переменную с ингредиентами для покупки
+    shop_list_content = create_shopping_list_content(shop_list)
+    response = HttpResponse(shop_list_content, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
+    return response
 
 
 @login_required

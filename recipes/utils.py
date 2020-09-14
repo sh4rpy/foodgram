@@ -1,26 +1,26 @@
 from django.db.models import F, Sum, Q
 
 
-def get_recipes_by_tags(request, recipes):
+def get_recipes_by_tags(tag_list, recipes):
     """Отдает рецепты в соответсвии с тегами"""
-    tags = request.GET.getlist('tag')
     or_condition = Q()
-    for i in tags:
+    for i in tag_list:
         or_condition.add(Q(tags__contains=i), Q.OR)
 
-    return tags, recipes.filter(or_condition)
+    return tag_list, recipes.filter(or_condition)
 
 
-def create_shopping_list_file(recipes):
+def create_shopping_list_content(recipes):
     """Создание файла со списком ингредиентов"""
+    shop_list_content = ''
     ingredients = recipes.annotate(
         name=F('recipe__ingredients__title'),
         dimension=F('recipe__ingredients__dimension')).values(
         'name', 'dimension').annotate(
         total=Sum('recipe__ingredient_amount__amount')).order_by('name')
-    with open('recipes/download/shopping_list.txt', 'w') as file:
-        for ingredient in ingredients:
-            file.write(f"{ingredient['name']} ({ingredient['dimension']}) - {ingredient['total']} \n")
+    for ingredient in ingredients:
+        shop_list_content += f"{ingredient['name']} ({ingredient['dimension']}) - {ingredient['total']} \n"
+    return shop_list_content
 
 
 def get_ingredients(request):

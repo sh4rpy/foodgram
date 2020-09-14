@@ -14,7 +14,7 @@
     {% include 'tags.html' %}
   </div>
   {% if request.user.username != profile.username and request.user.is_authenticated %}
-    {% if profile in followings %}
+    {% if profile.pk in followings %}
       <div class="author-subscribe" data-author="{{ profile.pk }}">
         <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_auto button_style_light-blue-outline" name="subscribe"><span class="icon-check button__icon"></span> Отписаться от автора</button></p>
       </div>
