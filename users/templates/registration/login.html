@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="{% static 'pages/form.css' %}">
 {% endblock %}
 {% block header %}
-  {% include 'header.html' %}
+  {% include 'header.html' with login=True%}
 {% endblock %}
 {% block content %}
   <div class="main__header">
