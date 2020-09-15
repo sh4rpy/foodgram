@@ -39,6 +39,10 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'users',
+    'recipes',
+    'api_frontend',
+
     'django.contrib.sites',
     'django.contrib.flatpages',
 
@@ -48,10 +52,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'users',
-    'recipes',
-    'api_frontend',
 
     'multiselectfield',
     'debug_toolbar',
