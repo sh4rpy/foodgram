@@ -3,6 +3,7 @@ from django.db import models
 
 from multiselectfield import MultiSelectField
 
+
 User = get_user_model()
 RECIPES_TAGS = (
     ('breakfast', 'Завтрак'),

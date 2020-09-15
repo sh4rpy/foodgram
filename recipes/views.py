@@ -13,8 +13,8 @@ def index(request):
     tags = []
     recipes = Recipe.objects.prefetch_related('author', 'ingredients')
     # если запрос с фильтрацией, переопределяем tags и recipes
-    if 'tag' in request.GET:
-        tag_list = request.GET.getlist('tag')
+    if 'tags' in request.GET:
+        tag_list = request.GET.get('tags')
         tags, recipes = get_recipes_by_tags(tag_list, recipes)
     paginator = Paginator(recipes, 6)
     page_number = request.GET.get('page')
@@ -28,8 +28,8 @@ def profile(request, username):
     profile = get_object_or_404(User, username=username)
     profile_recipes = profile.author_recipes.all()
     # если запрос с фильтрацией, переопределяем tags и profile_recipes
-    if 'tag' in request.GET:
-        tag_list = request.GET.getlist('tag')
+    if 'tags' in request.GET:
+        tag_list = request.GET.get('tags')
         tags, profile_recipes = get_recipes_by_tags(tag_list, profile_recipes)
     paginator = Paginator(profile_recipes, 6)
     page_number = request.GET.get('page')
@@ -62,8 +62,8 @@ def favorites(request):
     favorites_recipes = Recipe.objects.prefetch_related('author', 'ingredients').filter(
         favorites__author=request.user)
     # если запрос с фильтрацией, переопределяем tags и favorites_recipes
-    if 'tag' in request.GET:
-        tag_list = request.GET.getlist('tag')
+    if 'tags' in request.GET:
+        tag_list = request.GET.get('tags')
         tags, favorites_recipes = get_recipes_by_tags(tag_list, favorites_recipes)
     paginator = Paginator(favorites_recipes, 6)
     page_number = request.GET.get('page')

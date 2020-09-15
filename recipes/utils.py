@@ -4,9 +4,8 @@ from django.db.models import F, Sum, Q
 def get_recipes_by_tags(tag_list, recipes):
     """Отдает рецепты в соответсвии с тегами"""
     or_condition = Q()
-    for i in tag_list:
+    for i in tag_list.split('_'):
         or_condition.add(Q(tags__contains=i), Q.OR)
-
     return tag_list, recipes.filter(or_condition)
 
 

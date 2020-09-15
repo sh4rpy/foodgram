@@ -20,9 +20,8 @@ from django.conf.urls.static import static
 from django.contrib.flatpages import views
 from django.conf.urls import handler404
 
+
 handler404 = "recipes.views.page_not_found" # noqa
-
-
 urlpatterns = [
     # раздел администратора
     path('admin/', admin.site.urls),
