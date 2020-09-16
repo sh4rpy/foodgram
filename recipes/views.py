@@ -131,8 +131,7 @@ def change_recipe(request, recipe_id):
         if form.is_valid():
             form.save()
             ingredients = get_ingredients(request)
-            # если новые игредиенты переданы, очищаем прошлые
-            # if ingredients:
+            # очищаем прошлые ингредиенты
             recipe.ingredient_amount.all().delete()
             # и сохраняем новые ингредиенты
             for title, amount in ingredients.items():
