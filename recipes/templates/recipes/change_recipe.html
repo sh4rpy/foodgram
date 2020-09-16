@@ -50,6 +50,17 @@
                                 <input type="number" id="cantidad" class="form__input" min="0">
                                 <label for="cantidad" class="form__label" id="cantidadVal">шт.</label>
                             </div>
+                            <div class="form__field-group-ingredientes-container">
+                              {% for unit in recipe.ingredient_amount.all %}
+                                <div class="form__field-item-ingredient" id="ing_{{ unit.pk }}">
+                                  <span> {{ unit.ingredient.title }} {{ unit.amount }}{{ unit.ingredient.dimension }}.</span>
+                                  <span class="form__field-item-delete"></span>
+                                  <input id="nameIngredient_{{ unit.pk }}" name="nameIngredient_{{ unit.pk }}" type="hidden" value="{{ unit.ingredient.title }}">
+                                  <input id="valueIngredient_{{ unit.pk }}" name="valueIngredient_{{ unit.pk }}" type="hidden" value="{{ unit.amount }}">
+                                  <input id="unitsIngredient_{{ unit.pk }}" name="unitsIngredient_{{ unit.pk }}" type="hidden" value="{{ unit.ingredient.dimension }}.">
+                                </div>
+                              {% endfor %}
+                            </div>
                             <span class="form__ingredient-link" id="addIng">Добавить ингредиент</span>
                             <span class="form__error" id="ingredient-error">{% if error  %}Необходимо выбрать ингредиенты.{% endif %}</span>
                         </div>

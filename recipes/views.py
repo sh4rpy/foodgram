@@ -132,13 +132,13 @@ def change_recipe(request, recipe_id):
             form.save()
             ingredients = get_ingredients(request)
             # если новые игредиенты переданы, очищаем прошлые
-            if ingredients:
-                recipe.ingredient_amount.all().delete()
-                # и сохраняем новые ингредиенты
-                for title, amount in ingredients.items():
-                    ingredient = get_object_or_404(Ingredient, title=title)
-                    unit = Unit(amount=amount, ingredient=ingredient, recipe=recipe)
-                    unit.save()
+            # if ingredients:
+            recipe.ingredient_amount.all().delete()
+            # и сохраняем новые ингредиенты
+            for title, amount in ingredients.items():
+                ingredient = get_object_or_404(Ingredient, title=title)
+                unit = Unit(amount=amount, ingredient=ingredient, recipe=recipe)
+                unit.save()
             return redirect('recipe_detail', recipe_id=recipe.pk)
     else:
         form = RecipeForm(instance=recipe)
