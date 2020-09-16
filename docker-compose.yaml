@@ -35,6 +35,6 @@ services:
       - static_volume:/code/static
       - media_volume:/code/media
     ports:
-      - 80:80
+      - 5555:80
     depends_on:
       - web
