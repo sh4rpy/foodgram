@@ -16,7 +16,7 @@
       {% for user in page %}
       <div class="card-user" data-id="{{ user.following.pk }}">
             <div class="card-user__header">
-                <h2 class="card-user__title">{{ user.following.username }}</h2>
+                <h2 class="card-user__title"><a style="color: #000" href="{% url 'profile' user.following.username %}">{{ user.following.username }}</a></h2>
             </div>
             <div class="card-user__body">
               <ul class="card-user__items">
@@ -24,7 +24,7 @@
                   <li class="card-user__item">
                     <div class="recipe">
                         <img src="{{ recipe.image.url }}" alt="какой-то-текст" class="recipe__image">
-                        <h3 class="recipe__title">{{ recipe.title }}</h3>
+                        <h3 class="recipe__title"><a style="color: #000" href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h3>
                         <p class="recipe__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
                     </div>
                   </li>
