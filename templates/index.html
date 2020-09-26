@@ -13,24 +13,21 @@
     <h1 class="main__title">Рецепты</h1>
     {% include 'tags.html' %}
   </div>
-    <div class="card-list">
-      {% for recipe in page %}
-        {% include 'recipes/recipe_item.html' with recipe=recipe %}
-      {% endfor %}
-    </div>
-    {% if page.has_other_pages %}
-      {% include "paginator.html" with items=page paginator=paginator %}
-    {% endif %}
+  <div class="card-list">
+    {% for recipe in page %}
+      {% include 'recipes/recipe_item.html' with recipe=recipe %}
+    {% endfor %}
+  </div>
+  {% if page.has_other_pages %}
+    {% include "paginator.html" with items=page paginator=paginator %}
+  {% endif %}
   {% block script %}
     <script src="{% static 'js/components/MainCards.js' %}"></script>
-
     <script src="{% static 'js/components/Purchpurachases.js' %}"></script>
     <script src="{% static 'js/components/Favorites.js' %}"></script>
     <script src="{% static 'js/components/SingleCard.js' %}"></script>
-
     <script src="{% static 'js/components/CardList.js' %}"></script>
     <script src="{% static 'js/components/Header.js' %}"></script>
-
     <script src="{% static 'js/api/Api.js' %}"></script>
     <script src="{% static 'indexAuth.js' %}"></script>
   {% endblock %}

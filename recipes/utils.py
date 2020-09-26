@@ -10,7 +10,7 @@ def get_recipes_by_tags(tag_list, recipes):
 
 
 def create_shopping_list_content(recipes):
-    """Создание файла со списком ингредиентов"""
+    """Создание списка ингредиентов"""
     shop_list_content = ''
     ingredients = recipes.annotate(
         name=F('recipe__ingredients__title'),

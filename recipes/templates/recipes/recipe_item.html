@@ -1,5 +1,5 @@
 <div class="card" data-id="{{ recipe.pk }}">
-  <a href="{% url 'recipe_detail' recipe.pk %}" class="link" target="_blank"><img src="{{ recipe.image.url }}" alt="Какой-то текст" class="card__image"></a>
+  <a href="{% url 'recipe_detail' recipe.pk %}" class="link"><img src="{{ recipe.image.url }}" alt="Какой-то текст" class="card__image"></a>
   <div class="card__body">
     <a class="card__title link" href="{% url 'recipe_detail' recipe.pk %}" target="_blank">{{ recipe.title }}</a>
     <ul class="card__items">
@@ -20,12 +20,12 @@
   </div>
   {% if request.user.is_authenticated %}
     <div class="card__footer">
-        {% if recipe.pk in shopping_list_recipes %}
-          <button class="button button_style_light-blue-outline" name="purchpurchases"><span class="icon-check button__icon"></span>Рецепт добавлен</button>
-        {% else %}
-          <button class="button button_style_light-blue" name="purchpurchases" data-out><span class="icon-plus button__icon"></span>Добавить в покупки</button>
-        {% endif %}
-        <button class="button button_style_none" name="favorites" {% if recipe.pk not in favorites_recipes %}data-out{% endif %}><span class="icon-favorite {% if recipe.pk in favorites_recipes %}icon-favorite_active{% endif %}"></span></button>
+      {% if recipe.pk in shopping_list_recipes %}
+        <button class="button button_style_light-blue-outline" name="purchpurchases"><span class="icon-check button__icon"></span>Рецепт добавлен</button>
+      {% else %}
+        <button class="button button_style_light-blue" name="purchpurchases" data-out><span class="icon-plus button__icon"></span>Добавить в покупки</button>
+      {% endif %}
+      <button class="button button_style_none" name="favorites" {% if recipe.pk not in favorites_recipes %}data-out{% endif %}><span class="icon-favorite {% if recipe.pk in favorites_recipes %}icon-favorite_active{% endif %}"></span></button>
     </div>
   {% endif %}
 </div>
