@@ -14,6 +14,7 @@ class RecipeForm(forms.ModelForm):
             'cooking_time': forms.NumberInput(attrs={'class': 'form__input', 'id': 'id_time'}),
             'description': forms.Textarea(
                 attrs={'class': 'form__textarea', 'rows': '8', 'id': 'id_description'}),
+            'image': forms.FileInput(attrs={'class': 'form__file-button', 'id': 'id_file'})
         }
         labels = {
             'title': 'Название рецепта',
