@@ -16,7 +16,7 @@
       {% for user in page %}
         <div class="card-user" data-id="{{ user.following.pk }}">
           <div class="card-user__header">
-            <h2 class="card-user__title"><a style="color: #000" href="{% url 'profile' user.following.username %}">{{ user.following.username }}</a></h2>
+            <h2 class="card-user__title"><a style="color: #000" href="{% url 'profile' user.following.username %}">{{ user.following.get_full_name }}</a></h2>
           </div>
           <div class="card-user__body">
             <ul class="card-user__items">
